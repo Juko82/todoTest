@@ -1,0 +1,19 @@
+{
+  "login": "Login",
+  "emailAddress": "Email address",
+  "password": "Password",
+  "forgotPassword": "Forgot password?",
+  "enter": "Login",
+  "registration": "Registration",
+  "youName": "Name",
+  "repeatPassword": "Repeat password",
+  "reuiredField": "Required field",
+  "incorrectFormat": "Incorrect format",
+  "passwordDifferend": "Password differend",
+  "add": "Add",
+  "inputTask": "Input task",
+  "settings": "Settings",
+  "darkTheme": "Dark theme",
+  "languageSettings": "Language (Uk/En)",
+  "logout": "Logout"
+}

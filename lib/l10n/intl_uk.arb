@@ -1,0 +1,19 @@
+{
+  "login": "Авторизація",
+  "emailAddress": "Електронна адреса",
+  "password": "Пароль",
+  "forgotPassword": "Забули пароль?",
+  "enter": "Увійти",
+  "registration": "Реєстрація",
+  "youName": "Ім'я",
+  "repeatPassword": "Повторіть пароль",
+  "reuiredField": "Обов'язкове поле",
+  "incorrectFormat": "Неправильний формат",
+  "passwordDifferend": "Пароль відрізняється",
+  "add": "Додати",
+  "inputTask": "Нова нотатка",
+  "settings": "Налаштування",
+  "darkTheme": "Темна тема",
+  "languageSettings": "Мова (Uk/En)",
+  "logout": "Вийти"
+}
