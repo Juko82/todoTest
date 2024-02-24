@@ -1,4 +1,4 @@
-import 'dart:developer';
+
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
@@ -15,10 +15,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<SettingsChangeThemEvent>((event, emit) => _changeThem(event, emit));
     on<SettingsChangeLocaleEvent>((event, emit) => _changeLocale(event, emit));
   }
-  int count = 0;
+ 
   _changeThem(SettingsChangeThemEvent event, Emitter emit) {
-    count++;
-    log(count.toString());
+    
     final ThemeData currentThem = event.value  == true ? ThemeApp.ligthThem : ThemeApp.darkTheme;
     darkTheme = !event.value;
     emit(SettingsState().copyWith(themeData: currentThem, darkThem: !event.value, enLocal: enLocale));

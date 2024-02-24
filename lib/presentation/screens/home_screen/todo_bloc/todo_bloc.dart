@@ -1,6 +1,6 @@
 
 
-import 'dart:developer';
+
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
@@ -36,12 +36,10 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   }
 
   _getData(TodoGetDataEvent event, Emitter emit) async {
-    log('dataRequst $dataRequst');
     if (dataRequst == true) return;
 
     emit(TodoLoadingState());
     try {
-      log('get data: ${event.userId}');
       final UserModel data = await GetDataStorage(repositories: repositories).call(params: UserParams(id: event.userId, todoList: []));
       user = UserEntities(id: data.id!, todoList: data.todoList!);
       dataRequst = true;
@@ -52,8 +50,6 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
       );
     } catch (e) {
       if (e is Exception) {
-        log('get data error ${e}');
-        log('get data with error: ${event.userId}');
           user = UserEntities(id: event.userId, todoList: []);
           RecordToStorage(repositories: repositories).call(params: UserParams(id: user.id, todoList: user.todoList));
           emit(TodoLoadedState(model: user));

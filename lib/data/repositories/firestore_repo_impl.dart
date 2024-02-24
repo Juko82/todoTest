@@ -1,5 +1,5 @@
 
-import 'dart:developer';
+
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:testing_app/core/constants/params.dart';
@@ -11,7 +11,6 @@ class FirestoreRepositoriesImpl implements FirestoreRepositories {
   @override
   Future<UserModel> getData({required UserParams params}) async {
     try {
-      log('request to get data');
       final doc = await _store.collection('todo').doc(params.id).get();
       final data = doc.data();
       if (data == null) {

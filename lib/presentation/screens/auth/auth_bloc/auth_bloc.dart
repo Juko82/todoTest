@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +28,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           params: AuthParams(email: event.email, password: event.password));
       emit(AuthSuccsessState(id: id));
     } catch (e) {
-      log(e.runtimeType.toString());
       emit(
         AuthErrorState(
           errorText: e.toString(),
@@ -65,7 +63,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       return;
     }
     try {
-      log('requset block');
       final String id =
           // await repositories.registrationNewUser(event.email, event.password1);
           await RegistrationNewClientUseCase(repositories).call(
