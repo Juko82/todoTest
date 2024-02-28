@@ -3,16 +3,16 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:testing_app/core/constants/params.dart';
-import 'package:testing_app/data/repositories/firestore_repo_impl.dart';
 import 'package:testing_app/data/models/user_model.dart';
 import 'package:testing_app/domain/entities/user_entitities.dart';
+import 'package:testing_app/domain/repositories/firestore_repositories.dart';
 import 'package:testing_app/domain/usecases/firestore_usecases.dart';
 
 part 'todo_event.dart';
 part 'todo_state.dart';
 
 class TodoBloc extends Bloc<TodoEvent, TodoState> {
-  final FirestoreRepositoriesImpl repositories;
+  final FirestoreRepositories repositories;
   late UserEntities user;
   bool dataRequst = false;
   TodoBloc({required this.repositories}) : super(TodoInitial()) {

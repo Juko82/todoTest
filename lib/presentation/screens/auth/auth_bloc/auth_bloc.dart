@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:testing_app/core/constants/params.dart';
-import 'package:testing_app/data/repositories/auth_repo_impl.dart';
+import 'package:testing_app/domain/repositories/auth_repositories.dart';
 import 'package:testing_app/domain/usecases/auth_usecases.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final AuthRepositoriesImpl repositories;
+  final AuthRepositories repositories;
   AuthBloc({required this.repositories}) : super(AuthInitial()) {
     on<AuthUserEvent>((event, emit) => _auth(event, emit));
     on<RegistrationNewClientdEvent>(
