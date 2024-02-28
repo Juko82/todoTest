@@ -2,20 +2,20 @@ part of 'settings_bloc.dart';
 
 class SettingsState {
   final ThemeData? themeData;
-  final bool darkThem;
+  final bool darkTheme;
   final Locale? locale;
   final bool enLocal;
   SettingsState({
     this.themeData,
-    this.darkThem = true,
+    this.darkTheme = true,
     this.locale,
     this.enLocal = false,
   });
 
-  SettingsState copyWith({bool darkThem = true, bool enLocal = false}) {
+  SettingsState copyWith({bool darkTheme = true, bool enLocal = false}) {
     return SettingsState(
-        darkThem: darkThem,
-        themeData: darkThem ? ThemeApp.darkTheme : ThemeApp.ligthThem,
+        darkTheme: darkTheme,
+        themeData: darkTheme ? ThemeApp.darkTheme : ThemeApp.ligthThem,
         locale: enLocal ? const Locale('en') : const Locale('uk'),
         enLocal: enLocal);
   }

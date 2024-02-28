@@ -20,31 +20,32 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   init(Emitter emit) async {
     final bool dark = await _checkDarkThem();
     final bool enLocal = await _checkEnLocal();
-    emit(SettingsState().copyWith(darkThem: dark, enLocal: enLocal));
+    emit(SettingsState().copyWith(darkTheme: dark, enLocal: enLocal));
   }
 
-  _changeThem(SettingsChangeThemEvent event, Emitter emit) {
-    SetThem().call(
+  _changeThem(SettingsChangeThemEvent event, Emitter emit) async{
+    SetTheme().call(
         params: ThemeParams(theme: event.value == true ? 'light' : 'dark'));
+    final bool enLocal = await _checkEnLocal();
 
-    log(event.value.toString());
-    emit(SettingsState().copyWith(darkThem: !event.value, enLocal: true));
+    emit(SettingsState().copyWith(darkTheme: !event.value, enLocal: enLocal));
   }
 
   _changeLocale(SettingsChangeLocaleEvent event, Emitter emit) async {
     SetLocale().call(params: LocalParams(locale: event.enLocal ? 'ua' : 'en'));
     final bool dark = await _checkDarkThem();
-    if (event.enLocal == false) {
-      emit(SettingsState().copyWith(enLocal: true, darkThem: dark));
-    } else {
-      emit(SettingsState().copyWith(enLocal: false, darkThem: dark));
-    }
-
+    final bool enLocale = await _checkEnLocal();
+    // if (event.enLocal == false) {
+    //   emit(SettingsState().copyWith(enLocal: enLocale, darkTheme: dark));
+    // } else {
+    //   emit(SettingsState().copyWith(enLocal: enLocale, darkTheme: dark));
+    // }
+ emit(SettingsState().copyWith(enLocal: enLocale, darkTheme: dark));
   
   }
 
   Future<bool> _checkDarkThem() async {
-    final ThemeParams theme = await GetThem().call();
+    final ThemeParams theme = await GetTheme().call();
     return theme.theme == 'dark';
   }
 

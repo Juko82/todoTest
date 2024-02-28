@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
-import 'package:testing_app/core/constants/theme.dart';
 import 'package:testing_app/data/repositories/auth_repo_impl.dart';
 import 'package:testing_app/data/repositories/firestore_repo_impl.dart';
 import 'package:testing_app/data/repositories/local_repo_impl.dart';

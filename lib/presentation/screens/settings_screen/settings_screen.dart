@@ -38,7 +38,7 @@ class SettingsScreen extends StatelessWidget {
               children: [
                 SettingsLitTile(
                   title: S.of(context).darkTheme,
-                  val: state.darkThem,
+                  val: state.darkTheme,
                   onChanged: (val) {
                     BlocProvider.of<SettingsBloc>(context)
                         .add(SettingsChangeThemEvent(value: !val));
