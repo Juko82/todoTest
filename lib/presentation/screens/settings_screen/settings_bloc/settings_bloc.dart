@@ -35,11 +35,6 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     SetLocale().call(params: LocalParams(locale: event.enLocal ? 'ua' : 'en'));
     final bool dark = await _checkDarkThem();
     final bool enLocale = await _checkEnLocal();
-    // if (event.enLocal == false) {
-    //   emit(SettingsState().copyWith(enLocal: enLocale, darkTheme: dark));
-    // } else {
-    //   emit(SettingsState().copyWith(enLocal: enLocale, darkTheme: dark));
-    // }
  emit(SettingsState().copyWith(enLocal: enLocale, darkTheme: dark));
   
   }
