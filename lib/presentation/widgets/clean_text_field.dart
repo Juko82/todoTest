@@ -17,8 +17,9 @@ class CleanTextField extends StatelessWidget {
       controller: controller,
       maxLines: 2,
       
-      style: TextStyle(fontSize: AppSize.size20, color: ColorsApp.blue),
+      style: TextStyle(fontSize: AppSize.size20, color: theme.hintColor),
       decoration:  InputDecoration(
+        
         hintText: S.of(context).inputTask,
         hintStyle: TextStyle(color: theme.hintColor),
         contentPadding: const EdgeInsets.fromLTRB(12, 20, 12, 20),

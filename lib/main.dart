@@ -2,10 +2,15 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:get_it/get_it.dart';
 import 'package:testing_app/core/constants/theme.dart';
 import 'package:testing_app/data/repositories/auth_repo_impl.dart';
 import 'package:testing_app/data/repositories/firestore_repo_impl.dart';
+import 'package:testing_app/data/repositories/local_repo_impl.dart';
 import 'package:testing_app/data/repositories/shared_preference_repo_impl.dart';
+import 'package:testing_app/data/repositories/theme_repo_impl.dart';
+import 'package:testing_app/domain/repositories/locale_shared_preference.dart';
+import 'package:testing_app/domain/repositories/theme_shared_preference_repositories.dart';
 import 'package:testing_app/firebase_options.dart';
 import 'package:testing_app/generated/l10n.dart';
 import 'package:testing_app/presentation/screens/auth/auth_bloc/auth_bloc.dart';
@@ -15,6 +20,10 @@ import 'package:testing_app/presentation/screens/settings_screen/settings_bloc/s
 import 'package:testing_app/utils/size/app_size.dart';
 
 void main() async {
+  
+  GetIt.I.registerLazySingleton<ThemeDataSharedPreference>(() => ThemeDataSharedPreferenceImpl());
+  GetIt.I.registerLazySingleton<LocalSharedPreference>(() => LocalSharedPreferenceImpl());
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -34,11 +43,11 @@ class MyApp extends StatelessWidget {
           create: (context) => FirestoreRepositoriesImpl(),
         ),
         RepositoryProvider(
-          create: (context) => LocalStorage(),
+          create: (context) => LocalStorageImpl(),
         ),
         RepositoryProvider(
           create: (context) => AuthRepositoriesImpl(
-              localStorage: RepositoryProvider.of<LocalStorage>(context)),
+              localStorage: RepositoryProvider.of<LocalStorageImpl>(context)),
         ),
       ],
       child: MultiBlocProvider(
@@ -54,7 +63,7 @@ class MyApp extends StatelessWidget {
                     RepositoryProvider.of<FirestoreRepositoriesImpl>(context)),
           ),
           BlocProvider(
-            create: (context) => SettingsBloc(),
+            create: (context) => SettingsBloc()..add(SettingsInit()),
           ),
         ],
         child: GestureDetector(
@@ -83,9 +92,9 @@ class MyMaterialApp extends StatelessWidget {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          locale: state.locale ?? const Locale('uk'),
+          locale: state.locale ,//?? const Locale('uk'),
           supportedLocales: S.delegate.supportedLocales,
-          theme: state.themeData ?? ThemeApp.darkTheme,
+          theme: state.themeData,
           home: const AuthScreen(),
         );
       },

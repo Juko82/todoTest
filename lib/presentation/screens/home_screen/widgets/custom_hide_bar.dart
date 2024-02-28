@@ -1,5 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:testing_app/core/constants/app_color.dart';
+import 'package:testing_app/generated/l10n.dart';
 import 'package:testing_app/presentation/screens/home_screen/todo_bloc/todo_bloc.dart';
 import 'package:testing_app/presentation/widgets/container_with_shadow.dart';
 import 'package:testing_app/utils/size/app_size.dart';
@@ -59,21 +64,59 @@ class CustomHideBar extends StatelessWidget {
     );
   }
 
+
   List<Widget> _getTask(
       {required TodoLoadedState state, required BuildContext context}) {
     return state.model.todoList
-        .map(
-          (e) => ContainerWithShadow(
-            width: AppSize.size165,
-            height: AppSize.size70,
-            child: Center(
-              child: Text(
-                e,
-                style: Theme.of(context).textTheme.labelMedium,
+        .map((e) => GestureDetector(
+              onTap: () {
+                _showDialog(context: context, task: e);
+              },
+              child: ContainerWithShadow(
+                width: AppSize.size165,
+                height: AppSize.size70,
+                child: Center(
+                  child: Text(
+                    e,
+                    style: Theme.of(context).textTheme.labelMedium,
+                  ),
+                ),
               ),
-            ),
-          ),
-        )
+            ))
         .toList();
   }
+}
+
+void _showDialog({required BuildContext context, required String task}) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      final ThemeData them = Theme.of(context);
+      return AlertDialog(
+        backgroundColor: them.cardColor,
+        title: Text(S.of(context).deleteTask),
+        content: Text(task),
+        actions: <Widget>[
+          ElevatedButton(
+            onPressed: () {
+              BlocProvider.of<TodoBloc>(context)
+                  .add(TodoRemoveDataEvent(task: task));
+              Navigator.of(context).pop();
+            },
+            style: ElevatedButton.styleFrom(backgroundColor: ColorsApp.red),
+            child: Text(
+              S.of(context).delete,
+              style: them.textTheme.titleSmall,
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text(S.of(context).cancel),
+          ),
+        ],
+      );
+    },
+  );
 }

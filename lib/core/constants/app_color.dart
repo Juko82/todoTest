@@ -7,5 +7,6 @@ abstract class ColorsApp {
   static const transparent = Colors.transparent;
   static const cyan = Colors.cyan;
   static const grey = Colors.grey;
+  static const red = Colors.red;
   static final lightBlack = Color(0xff505050);
 }

@@ -1,6 +1,4 @@
-
-
-
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
@@ -15,23 +13,32 @@ part 'todo_state.dart';
 
 class TodoBloc extends Bloc<TodoEvent, TodoState> {
   final FirestoreRepositoriesImpl repositories;
- late UserEntities user;
- bool dataRequst = false;
+  late UserEntities user;
+  bool dataRequst = false;
   TodoBloc({required this.repositories}) : super(TodoInitial()) {
     on<TodoGetDataEvent>((event, emit) => _getData(event, emit));
-    on<TodoRecordDataEvend>((event, emit) => _record(event, emit));
+    on<TodoRecordDataEvent>((event, emit) => _record(event, emit));
     on<TodoClearState>((event, emit) => _clear(event, emit));
+    on<TodoRemoveDataEvent>((event, emit) => _remove(event, emit));
   }
- 
+
+  _remove(TodoRemoveDataEvent event, Emitter emit) {
+    log(event.task);
+    user.todoList = user.todoList.where((el) => el  != event.task).toList();
+    RecordToStorage(repositories: repositories)
+        .call(params: UserParams(id: user.id, todoList: user.todoList));
+    emit(TodoLoadedState(model: user));
+  }
 
   _clear(TodoClearState event, Emitter emit) {
     dataRequst = false;
     emit(TodoInitial());
   }
 
-  _record(TodoRecordDataEvend event, Emitter emit)  {
+  _record(TodoRecordDataEvent event, Emitter emit) {
     user.todoList.add(event.newTask);
-    RecordToStorage(repositories: repositories).call(params: UserParams(id: user.id, todoList: user.todoList));
+    RecordToStorage(repositories: repositories)
+        .call(params: UserParams(id: user.id, todoList: user.todoList));
     emit(TodoLoadedState(model: user));
   }
 
@@ -40,7 +47,8 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
 
     emit(TodoLoadingState());
     try {
-      final UserModel data = await GetDataStorage(repositories: repositories).call(params: UserParams(id: event.userId, todoList: []));
+      final UserModel data = await GetDataStorage(repositories: repositories)
+          .call(params: UserParams(id: event.userId, todoList: []));
       user = UserEntities(id: data.id!, todoList: data.todoList!);
       dataRequst = true;
       emit(
@@ -50,9 +58,10 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
       );
     } catch (e) {
       if (e is Exception) {
-          user = UserEntities(id: event.userId, todoList: []);
-          RecordToStorage(repositories: repositories).call(params: UserParams(id: user.id, todoList: user.todoList));
-          emit(TodoLoadedState(model: user));
+        user = UserEntities(id: event.userId, todoList: []);
+        RecordToStorage(repositories: repositories)
+            .call(params: UserParams(id: user.id, todoList: user.todoList));
+        emit(TodoLoadedState(model: user));
       }
       emit(TodoErrorState());
     }

@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'todo_bloc.dart';
 
 @immutable
@@ -8,10 +9,14 @@ class TodoGetDataEvent extends TodoEvent {
   TodoGetDataEvent({required this.userId});
 }
 
-
-class TodoRecordDataEvend extends TodoEvent {
+class TodoRecordDataEvent extends TodoEvent {
   final String newTask;
-  TodoRecordDataEvend({ required this.newTask});
+  TodoRecordDataEvent({required this.newTask});
 }
 
 class TodoClearState extends TodoEvent {}
+
+class TodoRemoveDataEvent extends TodoEvent {
+  final String task;
+  TodoRemoveDataEvent({required this.task});
+}

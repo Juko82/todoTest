@@ -7,7 +7,7 @@ import 'package:testing_app/domain/repositories/auth_repositories.dart';
 
 
 class AuthRepositoriesImpl implements AuthRepositories {
-  final LocalStorage localStorage;
+  final LocalStorageImpl localStorage;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   AuthRepositoriesImpl({required this.localStorage});

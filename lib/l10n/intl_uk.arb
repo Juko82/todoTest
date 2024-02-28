@@ -15,5 +15,8 @@
   "settings": "Налаштування",
   "darkTheme": "Темна тема",
   "languageSettings": "Мова (Uk/En)",
-  "logout": "Вийти"
+  "logout": "Вийти",
+  "deleteTask": "Видалити нотатку",
+  "cancel": "Скасувати",
+  "delete": "Видалити"
 }

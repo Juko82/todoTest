@@ -12,3 +12,18 @@ class UserParams {
   UserParams({required this.id, required this.todoList});
 
 }
+
+
+class ThemeParams {
+  final String theme;
+
+  ThemeParams({required this.theme});
+
+}
+
+
+class LocalParams{
+  final String locale;
+
+  LocalParams({required this.locale});
+}

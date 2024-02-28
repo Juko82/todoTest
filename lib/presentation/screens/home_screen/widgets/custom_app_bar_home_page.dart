@@ -89,8 +89,9 @@ class _CustomAppBarState extends State<CustomAppBar> {
                 right: AppSize.size30,
                 child: GestureDetector(
                   onTap: () {
+                    if (taskController.text == '') return;
                     BlocProvider.of<TodoBloc>(context).add(
-                      TodoRecordDataEvend(newTask: taskController.text),
+                      TodoRecordDataEvent(newTask: taskController.text),
                     );
                     taskController.text = '';
                     FocusManager.instance.primaryFocus?.unfocus();

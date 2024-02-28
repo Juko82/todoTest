@@ -1,42 +1,55 @@
-
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:testing_app/core/constants/params.dart';
 import 'package:testing_app/core/constants/theme.dart';
+import 'package:testing_app/domain/usecases/locale_usecases.dart';
+import 'package:testing_app/domain/usecases/theme_usecases.dart';
 
 part 'settings_event.dart';
 part 'settings_state.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
-   bool enLocale = false;
-   bool darkTheme = true;
   SettingsBloc() : super(SettingsState().copyWith()) {
-    
     on<SettingsChangeThemEvent>((event, emit) => _changeThem(event, emit));
     on<SettingsChangeLocaleEvent>((event, emit) => _changeLocale(event, emit));
-  }
- 
-  _changeThem(SettingsChangeThemEvent event, Emitter emit) {
-    
-    final ThemeData currentThem = event.value  == true ? ThemeApp.ligthThem : ThemeApp.darkTheme;
-    darkTheme = !event.value;
-    emit(SettingsState().copyWith(themeData: currentThem, darkThem: !event.value, enLocal: enLocale));
-    // emit(SettingsChangeThemState(themeData: currentThem, darkThem: !event.value));
+    on<SettingsInit>((event, emit) => init(emit));
   }
 
-  _changeLocale(SettingsChangeLocaleEvent event, Emitter emit) {
-    
+  init(Emitter emit) async {
+    final bool dark = await _checkDarkThem();
+    final bool enLocal = await _checkEnLocal();
+    emit(SettingsState().copyWith(darkThem: dark, enLocal: enLocal));
+  }
+
+  _changeThem(SettingsChangeThemEvent event, Emitter emit) {
+    SetThem().call(
+        params: ThemeParams(theme: event.value == true ? 'light' : 'dark'));
+
+    log(event.value.toString());
+    emit(SettingsState().copyWith(darkThem: !event.value, enLocal: true));
+  }
+
+  _changeLocale(SettingsChangeLocaleEvent event, Emitter emit) async {
+    SetLocale().call(params: LocalParams(locale: event.enLocal ? 'ua' : 'en'));
+    final bool dark = await _checkDarkThem();
     if (event.enLocal == false) {
-      emit(SettingsState().copyWith(locale: const Locale('en'), enLocal: true, darkThem: darkTheme));
-      // emit(SettingsChangeLocaleState(locale: const Locale('en'), enLocal: true));
+      emit(SettingsState().copyWith(enLocal: true, darkThem: dark));
     } else {
-       emit(SettingsState().copyWith(locale: const Locale('uk'), enLocal: false, darkThem: darkTheme));
-      // emit(SettingsChangeLocaleState(locale: const Locale('uk'), enLocal: false));
+      emit(SettingsState().copyWith(enLocal: false, darkThem: dark));
     }
-    enLocale = !event.enLocal;
-    
+
+  
+  }
+
+  Future<bool> _checkDarkThem() async {
+    final ThemeParams theme = await GetThem().call();
+    return theme.theme == 'dark';
+  }
+
+  Future<bool> _checkEnLocal() async {
+    final LocalParams locale = await GetLocale().call();
+    return locale.locale == 'en';
   }
 }
-
-
-

@@ -1,6 +1,6 @@
-
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:testing_app/core/constants/params.dart';
 import 'package:testing_app/data/repositories/auth_repo_impl.dart';
@@ -23,7 +23,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   _auth(AuthUserEvent event, Emitter emit) async {
     emit(AuthLoadingState());
     try {
-      // final String id = await repositories.logIn(event.email, event.password);
       final String id = await LogInUseCase(repositories).call(
           params: AuthParams(email: event.email, password: event.password));
       emit(AuthSuccsessState(id: id));
@@ -35,8 +34,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
     }
   }
-
-
 
   _registration(RegistrationNewClientdEvent event, Emitter emit) async {
     emit(AuthLoadingState());
@@ -63,11 +60,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       return;
     }
     try {
-      final String id =
-          // await repositories.registrationNewUser(event.email, event.password1);
-          await RegistrationNewClientUseCase(repositories).call(
-              params:
-                  AuthParams(email: event.email, password: event.password1));
+      final String id = await RegistrationNewClientUseCase(repositories).call(
+          params: AuthParams(email: event.email, password: event.password1));
       emit(AuthRegisterSuccessState(id: id));
     } catch (e) {
       emit(

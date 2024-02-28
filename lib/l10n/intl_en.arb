@@ -15,5 +15,8 @@
   "settings": "Settings",
   "darkTheme": "Dark theme",
   "languageSettings": "Language (Uk/En)",
-  "logout": "Logout"
+  "logout": "Logout",
+  "deleteTask": "Delete task",
+  "cancel": "Cancel",
+  "delete": "Delete"
 }

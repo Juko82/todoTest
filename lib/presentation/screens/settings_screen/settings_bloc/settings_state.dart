@@ -5,7 +5,6 @@ class SettingsState {
   final bool darkThem;
   final Locale? locale;
   final bool enLocal;
-  ThemeData them = ThemeApp.darkTheme;
   SettingsState({
     this.themeData,
     this.darkThem = true,
@@ -13,15 +12,11 @@ class SettingsState {
     this.enLocal = false,
   });
 
-  SettingsState copyWith(
-      {ThemeData? themeData,
-      bool darkThem = true,
-      Locale? locale,
-      bool enLocal = false}) {
+  SettingsState copyWith({bool darkThem = true, bool enLocal = false}) {
     return SettingsState(
         darkThem: darkThem,
-        themeData: themeData ?? ThemeApp.darkTheme,
-        locale: locale ?? const Locale('uk'),
+        themeData: darkThem ? ThemeApp.darkTheme : ThemeApp.ligthThem,
+        locale: enLocal ? const Locale('en') : const Locale('uk'),
         enLocal: enLocal);
   }
 }

@@ -15,3 +15,5 @@ final class SettingsChangeLocaleEvent extends SettingsEvent {
 
   SettingsChangeLocaleEvent({required this.enLocal});
 }
+
+final class SettingsInit extends SettingsEvent {}
